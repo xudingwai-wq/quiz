@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>初會題庫練習</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1d2330;--mu:#6b7385;--bd:#dfe3ea;--ac:#2f6fed;--ok:#1e9e5a;--okbg:#e6f6ed;--ng:#d6453d;--ngbg:#fdeceb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1b2029;--tx:#e8ebf2;--mu:#9099ab;--bd:#2c3340;--ac:#6b9bff;--ok:#4cc88a;--okbg:#14291f;--ng:#ff7a72;--ngbg:#2d1a19}}
+:root[data-theme="dark"]{--bg:#12151c;--card:#1b2029;--tx:#e8ebf2;--mu:#9099ab;--bd:#2c3340;--ac:#6b9bff;--ok:#4cc88a;--okbg:#14291f;--ng:#ff7a72;--ngbg:#2d1a19}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.6 -apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;max-width:640px;margin:0 auto;padding:12px}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button{flex:1;padding:10px 4px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-size:15px}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:12px}
+.meta{display:flex;justify-content:space-between;color:var(--mu);font-size:13px;margin-bottom:8px}
+.bar{height:5px;background:var(--bd);border-radius:3px;margin-bottom:12px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+.q{font-size:17px;font-weight:600;margin:0 0 12px;white-space:pre-wrap}
+.opt{display:block;width:100%;text-align:left;padding:12px;margin-bottom:8px;border:1.5px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-size:16px;line-height:1.5}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ng{border-color:var(--ng);background:var(--ngbg)}
+.fb{border-radius:10px;padding:12px;margin-top:6px;font-size:15px;white-space:pre-wrap}
+.fb.ok{background:var(--okbg)}.fb.ng{background:var(--ngbg)}.fb b{display:block;margin-bottom:4px}
+.go{width:100%;padding:13px;border:0;border-radius:10px;background:var(--ac);color:#fff;font-size:16px;margin-top:10px}
+.sec{background:transparent;border:1px solid var(--bd);color:var(--tx);padding:9px 12px;border-radius:10px;font-size:14px;margin:4px 4px 0 0}
+textarea{width:100%;height:170px;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px;font:13px/1.4 monospace}
+.mu{color:var(--mu);font-size:13px}
+</style>
+</head>
+<body>
+<div class="tabs">
+<button id="t0" onclick="tab(0)">全部題目</button>
+<button id="t1" onclick="tab(1)">錯題本</button>
+<button id="t2" onclick="tab(2)">匯入題庫</button>
+</div>
+<div id="app"></div>
+<script>
+var BASE=[
+{q:"會計恆等式為下列何者？",o:["資產 = 負債 − 業主權益","資產 = 負債 + 業主權益","資產 = 收入 − 費用","負債 = 資產 + 業主權益"],a:1,e:"會計恆等式：資產 = 負債 + 業主權益。資產是企業擁有的資源，來源不是債權人（負債）就是業主（業主權益）。",t:"會計基本概念"},
+{q:"賒購商品 $10,000，應作何分錄？",o:["借：應收帳款　貸：銷貨收入","借：存貨（進貨）　貸：應付帳款","借：應付帳款　貸：現金","借：現金　貸：應付帳款"],a:1,e:"賒購＝商品增加、同時欠供應商錢。存貨（或進貨）增加記借方，負債（應付帳款）增加記貸方。",t:"分錄"},
+{q:"下列何者屬於流動資產？",o:["土地","專利權","預付費用","長期投資"],a:2,e:"預付費用預期於一年或一營業週期內耗用，屬流動資產。土地為不動產、廠房及設備；專利權為無形資產；長期投資屬非流動資產。",t:"財務報表"},
+{q:"期末已賺得但尚未收到的利息收入 $500，調整分錄為何？",o:["借：現金　貸：利息收入","借：應收利息　貸：利息收入","借：利息收入　貸：應收利息","借：預收利息　貸：利息收入"],a:1,e:"這是應計收益：收入已賺得但尚未收現，要認列收入（貸：利息收入），同時產生收款權利（借：應收利息）。",t:"調整分錄"},
+{q:"「預收收入」在資產負債表上應列為：",o:["資產","負債","業主權益","收入"],a:1,e:"預收款項是已收錢但尚未提供商品或勞務，企業負有未來履約義務，所以是負債；等履約後才轉為收入。",t:"財務報表"},
+{q:"銷貨收入 $80,000，銷貨成本 $50,000，營業費用 $20,000，則銷貨毛利為？",o:["$10,000","$20,000","$30,000","$60,000"],a:2,e:"毛利 = 銷貨收入 − 銷貨成本 = 80,000 − 50,000 = 30,000。營業費用是計算營業淨利時才扣除（30,000 − 20,000 = 10,000）。",t:"損益計算"},
+{q:"下列何種錯誤，試算表借貸方仍會平衡？",o:["借方金額多記 $100","貸方漏記一筆 $500","整筆交易漏記（借貸皆未記）","借方科目記入但貸方金額寫成 $900（應為 $1,000）"],a:2,e:"整筆交易漏記，借貸兩邊都少同樣金額，試算表仍平衡。其他選項都會造成借貸不相等。試算表平衡不代表沒有錯誤。",t:"試算表"},
+{q:"機器成本 $100,000，估計殘值 $10,000，耐用年限 5 年，直線法每年折舊費用為？",o:["$18,000","$20,000","$22,000","$90,000"],a:0,e:"直線法每年折舊 =（成本 − 殘值）÷ 耐用年限 =（100,000 − 10,000）÷ 5 = 18,000。",t:"固定資產"},
+{q:"編製銀行存款調節表時，「未兌現支票」應如何處理？",o:["加到銀行對帳單餘額","自銀行對帳單餘額減除","加到公司帳上餘額","自公司帳上餘額減除"],a:1,e:"未兌現支票：公司已開票並已記帳減少現金，但銀行尚未付款，所以銀行餘額偏高，調節時要從銀行對帳單餘額中減除。",t:"銀行調節表"},
+{q:"「備抵呆帳」在資產負債表上屬於：",o:["負債","業主權益","應收帳款的減項（資產抵銷科目）","費用"],a:2,e:"備抵呆帳是應收帳款的抵銷科目（貸餘），列在應收帳款下方扣除，顯示預期可收回的淨額。呆帳費用才是損益表上的費用科目。",t:"應收帳款"}
+];
+var D=BASE.slice();
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var custom=ld("cq",[]);D=D.concat(custom);
+var wrong=ld("wq",[]);
+var mode=0,pool=[],i=0,sel=-1,score=0,done=0;
+var L="ABCDEFGH";
+function tab(m){mode=m;for(var k=0;k<3;k++)document.getElementById("t"+k).className=k==m?"on":"";if(m<2)start();else imp()}
+function start(){pool=mode==0?D.slice():D.filter(function(x){return wrong.indexOf(x.q)>-1});
+if(mode==0)pool.sort(function(){return Math.random()-.5});
+i=0;sel=-1;score=0;done=0;render()}
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function render(){var A=document.getElementById("app");
+if(!pool.length){A.innerHTML='<div class="card">'+(mode==1?"目前沒有錯題 🎉":"尚無題目")+"</div>";return}
+if(i>=pool.length){A.innerHTML='<div class="card"><p class="q">本輪完成</p>答對 '+score+' / '+pool.length+' 題<button class="go" onclick="start()">再來一輪</button></div>';return}
+var x=pool[i],h='<div class="card"><div class="meta"><span>第 '+(i+1)+' / '+pool.length+' 題'+(x.t?'・'+esc(x.t):'')+'</span><span>答對 '+score+'</span></div><div class="bar"><i style="width:'+(i/pool.length*100)+'%"></i></div><p class="q">'+esc(x.q)+'</p>';
+x.o.forEach(function(o,k){var c="opt";if(sel>-1){if(k==x.a)c+=" ok";else if(k==sel)c+=" ng"}
+h+='<button class="'+c+'" '+(sel>-1?"disabled":"onclick=\"pick("+k+")\"")+'>('+L[k]+') '+esc(o)+'</button>'});
+if(sel>-1){var r=sel==x.a;h+='<div class="fb '+(r?"ok":"ng")+'"><b>'+(r?"✅ 答對了":"❌ 答錯了　正確答案：("+L[x.a]+") "+esc(x.o[x.a]))+'</b>'+esc(x.e||"（此題尚無解析）")+'</div><button class="go" onclick="nx()">'+(i+1<pool.length?"下一題":"看結果")+'</button>'}
+A.innerHTML=h+"</div>"}
+function pick(k){var x=pool[i];sel=k;if(k==x.a){score++;wrong=wrong.filter(function(q){return q!=x.q})}else if(wrong.indexOf(x.q)<0)wrong.push(x.q);sv("wq",wrong);render()}
+function nx(){i++;sel=-1;render();window.scrollTo(0,0)}
+function imp(){document.getElementById("app").innerHTML='<div class="card"><p class="q">匯入自己的題目</p><p class="mu">貼上 JSON 陣列。answer 填 A/B/C/D，explain 為解析，tag 可省略。<br>範例：<br>[{"q":"題目","options":["選項1","選項2","選項3","選項4"],"answer":"B","explain":"為什麼","tag":"章節"}]</p><textarea id="ta"></textarea><button class="go" onclick="doImp()">匯入</button><p id="msg" class="mu"></p><p class="mu">已自訂 '+custom.length+' 題（存在這支手機的瀏覽器）</p><button class="sec" onclick="clr()">清除自訂題目</button><button class="sec" onclick="rs()">清除錯題本</button></div>'}
+function doImp(){var m=document.getElementById("msg");try{var a=JSON.parse(document.getElementById("ta").value),n=0;a.forEach(function(r){var ai=typeof r.answer=="number"?r.answer:L.indexOf(String(r.answer).toUpperCase());if(!r.q||!r.options||ai<0||ai>=r.options.length)return;var x={q:r.q,o:r.options,a:ai,e:r.explain||"",t:r.tag||""};custom.push(x);D.push(x);n++});sv("cq",custom);m.textContent="成功匯入 "+n+" 題（共 "+a.length+" 筆）"}catch(e){m.textContent="格式錯誤，請檢查 JSON"}}
+function clr(){custom=[];sv("cq",[]);D=BASE.slice();imp()}
+function rs(){wrong=[];sv("wq",[]);imp()}
+tab(0);
+</script>
+</body>
+</html>
